@@ -15,3 +15,6 @@ migrations/
 migrations/*
 /migrations/
 /migrations/*
+__pycache__
+__pycache__/
+/__pycache__
