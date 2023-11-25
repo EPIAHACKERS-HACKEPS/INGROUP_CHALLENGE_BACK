@@ -35,19 +35,19 @@ class UserStoryResource(MethodView):
         return UserStoryModel.query.all()
 
 
-@blp.route('/<int:user_story_id>')
+@blp.route('/<int:id>')
 class UserStoryItemResource(MethodView):
 
     @blp.response(200, UserStorySchema)
     @blp.alt_response(404, description='User Story not found')
-    def get(self, user_story_id):
-        return UserStoryModel.query.get_or_404(user_story_id)
+    def get(self, id):
+        return UserStoryModel.query.get_or_404(id)
 
     @blp.arguments(UserStorySchema)
     @blp.response(200, UserStorySchema)
     @blp.alt_response(404, description='User Story not found')
-    def put(self, user_story_data, user_story_id):
-        user_story = UserStoryModel.query.get_or_404(user_story_id)
+    def put(self, user_story_data, id):
+        user_story = UserStoryModel.query.get_or_404(id)
 
         # Actualiza los campos del UserStory según los datos proporcionados
         for key, value in user_story_data.items():
@@ -62,8 +62,8 @@ class UserStoryItemResource(MethodView):
     
     @blp.response(204, description='User Story was removed')
     @blp.alt_response(404, description='User Story not found')
-    def delete(self, user_story_id):
-        user_story = UserStoryModel.query.get_or_404(user_story_id)
+    def delete(self, id):
+        user_story = UserStoryModel.query.get_or_404(id)
 
         try:
             deleteAndCommit(user_story)
@@ -71,3 +71,18 @@ class UserStoryItemResource(MethodView):
             abort(500, message=str(e))
 
         return {}
+    
+@blp.route('/create')
+class UserStoryCreate(MethodView):
+    
+    @blp.arguments(UserStorySchema)
+    @blp.response(201, UserStorySchema)
+    def post(self, user_data):
+        user_story = UserStoryModel(**user_data)                
+        try:
+            addAndCommit(user_story)
+        except SQLAlchemyError as e:
+            traceback.print_exc()
+            abort(500, message = str(e) if DEBUG else 'Could not save user.')
+                        
+        return user_story

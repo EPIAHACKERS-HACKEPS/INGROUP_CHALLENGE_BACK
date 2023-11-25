@@ -11,7 +11,7 @@ class UserTokensSchema(Schema):
     user = fields.Nested(UserSchema(), dump_only=True)
 
 class UserStorySchema(Schema):
-    id_userstory = fields.Int(dump_only=True)
+    id = fields.Int(dump_only=True)
     titulo = fields.Str(required=True)
     description = fields.Str(required=True)
     

@@ -6,7 +6,7 @@ class ItemModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(255), nullable=False)
     priority = db.Column(db.Integer)
-    id_userstory = db.Column(db.Integer, db.ForeignKey('user_story.id_userstory'), nullable=False)
+    id_userstory = db.Column(db.Integer, db.ForeignKey('user_story.id'), nullable=False)
     item_type_id = db.Column(db.Integer, db.ForeignKey('item_types.id'), nullable=False)
     
     user_story = db.relationship('UserStoryModel', back_populates='items')
