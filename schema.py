@@ -9,9 +9,7 @@ class UserTokensSchema(Schema):
     access_token = fields.Str(required=False, dump_only=True)
     refresh_token = fields.Str(required=False, dump_only=True)
     user = fields.Nested(UserSchema(), dump_only=True)
-    
-    
-    
+
 class UserStorySchema(Schema):
     id_userstory = fields.Int(dump_only=True)
     titulo = fields.Str(required=True)

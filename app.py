@@ -13,6 +13,9 @@ from globals import DEBUG, SECRET_JWT, DATABASE_URI, API_PREFIX
 from db import db, deleteAndCommit
 
 from resources.user import blp as UserBlueprint
+from resources.user_story import blp as UserStoryBlueprint
+from resources.item import blp as ItemBlueprint
+from resources.item_type import blp as ItemTypeBlueprint
 
 
 from models import SessionTokenModel
@@ -116,11 +119,9 @@ def create_app():
     
     ##Routes
     api.register_blueprint(UserBlueprint, url_prefix=getApiPrefix('user'))
-    
-    #api.register_blueprint(UserBlueprint, url_prefix=getApiPrefix('user_story')) # Change BluePrints
-    
-    
-    
+    api.register_blueprint(UserStoryBlueprint, url_prefix=getApiPrefix('user_story'))
+    api.register_blueprint(ItemBlueprint, url_prefix=getApiPrefix('items'))
+    api.register_blueprint(ItemTypeBlueprint, url_prefix=getApiPrefix('item_type'))
     
     return app
 

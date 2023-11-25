@@ -9,20 +9,20 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 import uuid
 import datetime
 
-from models import UserModel, SessionTokenModel
-from schema import UserSchema, UserTokensSchema
+from models import ItemModel
+from schema import ItemSchema
 
 from db import db, addAndCommit, deleteAndCommit
 
 from globals import DEBUG
 
-item_blp = Blueprint('items', __name__, description='Item access')
+blp = Blueprint('items', __name__, description='Item access')
 
-@item_blp.route('')
+@blp.route('')
 class ItemResource(MethodView):
 
-    @item_blp.arguments(ItemSchema)
-    @item_blp.response(201, ItemSchema)
+    @blp.arguments(ItemSchema)
+    @blp.response(201, ItemSchema)
     def post(self, item_data):
         item = ItemModel(**item_data)
 
@@ -33,21 +33,34 @@ class ItemResource(MethodView):
 
         return item
 
-    @item_blp.response(200, ItemSchema(many=True))
+    @blp.response(200, ItemSchema(many=True))
     def get(self):
         return ItemModel.query.all()
 
 
-@item_blp.route('/<int:item_id>')
+@blp.route('/<int:item_id>')
 class ItemItemResource(MethodView):
 
-    @item_blp.response(200, ItemSchema)
-    @item_blp.alt_response(404, description='Item not found')
+    @blp.response(200, ItemSchema)
+    @blp.alt_response(404, description='Item not found')
     def get(self, item_id):
         return ItemModel.query.get_or_404(item_id)
+    
+    @blp.arguments(ItemSchema)
+    @blp.response(200, ItemSchema)
+    @blp.alt_response(404, description='Item not found')
+    def put(self, item_data, item_id):
+        item = ItemModel.query.get_or_404(item_id)
+        for key, value in item_data.items():
+            setattr(item, key, value)
+        try:
+            addAndCommit(item)
+        except SQLAlchemyError as e:
+            abort(500, message=str(e))
+        return item
 
-    @item_blp.response(204, description='Item was removed')
-    @item_blp.alt_response(404, description='Item not found')
+    @blp.response(204, description='Item was removed')
+    @blp.alt_response(404, description='Item not found')
     def delete(self, item_id):
         item = ItemModel.query.get_or_404(item_id)
 

@@ -9,20 +9,20 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 import uuid
 import datetime
 
-from models import UserModel, SessionTokenModel
-from schema import UserSchema, UserTokensSchema
+from models import ItemTypeModel
+from schema import ItemTypeSchema
 
 from db import db, addAndCommit, deleteAndCommit
 
 from globals import DEBUG
 
-item_type_blp = Blueprint('item_types', __name__, description='Item Type access')
+blp = Blueprint('item_types', __name__, description='Item Type access')
 
-@item_type_blp.route('')
+@blp.route('')
 class ItemTypeResource(MethodView):
 
-    @item_type_blp.arguments(ItemTypeSchema)
-    @item_type_blp.response(201, ItemTypeSchema)
+    @blp.arguments(ItemTypeSchema)
+    @blp.response(201, ItemTypeSchema)
     def post(self, item_type_data):
         item_type = ItemTypeModel(**item_type_data)
 
@@ -33,21 +33,35 @@ class ItemTypeResource(MethodView):
 
         return item_type
 
-    @item_type_blp.response(200, ItemTypeSchema(many=True))
+    @blp.response(200, ItemTypeSchema(many=True))
     def get(self):
         return ItemTypeModel.query.all()
 
 
-@item_type_blp.route('/<int:item_type_id>')
+@blp.route('/<int:item_type_id>')
 class ItemTypeItemResource(MethodView):
 
-    @item_type_blp.response(200, ItemTypeSchema)
-    @item_type_blp.alt_response(404, description='Item Type not found')
+    @blp.response(200, ItemTypeSchema)
+    @blp.alt_response(404, description='Item Type not found')
     def get(self, item_type_id):
         return ItemTypeModel.query.get_or_404(item_type_id)
+    
+    @blp.arguments(ItemTypeSchema)
+    @blp.response(200, ItemTypeSchema)
+    @blp.alt_response(404, description='Item Type not found')
+    def put(self, item_type_data, item_type_id):
+        item_type = ItemTypeModel.query.get_or_404(item_type_id)
+        for key, value in item_type_data.items():
+            setattr(item_type, key, value)
 
-    @item_type_blp.response(204, description='Item Type was removed')
-    @item_type_blp.alt_response(404, description='Item Type not found')
+        try:
+            addAndCommit(item_type)
+        except SQLAlchemyError as e:
+            abort(500, message=str(e))
+
+        return item_type
+    @blp.response(204, description='Item Type was removed')
+    @blp.alt_response(404, description='Item Type not found')
     def delete(self, item_type_id):
         item_type = ItemTypeModel.query.get_or_404(item_type_id)
 
@@ -57,3 +71,4 @@ class ItemTypeItemResource(MethodView):
             abort(500, message=str(e))
 
         return {}
+
