@@ -13,7 +13,7 @@ from globals import DEBUG, SECRET_JWT, DATABASE_URI, API_PREFIX
 from db import db, deleteAndCommit
 
 from resources.user import blp as UserBlueprint
-
+from resources.classification import blp as ClassificationBlueprint
 
 from models import SessionTokenModel
 
@@ -116,6 +116,7 @@ def create_app():
     
     ##Routes
     api.register_blueprint(UserBlueprint, url_prefix=getApiPrefix('user'))
+    api.register_blueprint(ClassificationBlueprint, url_prefix=getApiPrefix('classification'))
     
     return app
 
