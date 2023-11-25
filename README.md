@@ -39,19 +39,7 @@ If you encounter any issues or have suggestions, please create a new [issue](.gi
 ## License
 
 This project is licensed under the [License Name]. Refer to the LICENSE file for more details.
-
-
-
-
-
-
-
-
-
-
-
-
-
+<br><br><br><br>
 # Español
 
 ## Configuración del Entorno
