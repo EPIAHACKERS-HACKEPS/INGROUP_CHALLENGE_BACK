@@ -72,3 +72,17 @@ class ItemTypeItemResource(MethodView):
 
         return {}
 
+@blp.route('/create')
+class UserStoryCreate(MethodView):
+    
+    @blp.arguments(ItemTypeSchema)
+    @blp.response(201, ItemTypeSchema)
+    def post(self, user_data):
+        item_type = ItemTypeModel(**user_data)                
+        try:
+            addAndCommit(item_type)
+        except SQLAlchemyError as e:
+            traceback.print_exc()
+            abort(500, message = str(e) if DEBUG else 'Could not save user.')
+                        
+        return item_type

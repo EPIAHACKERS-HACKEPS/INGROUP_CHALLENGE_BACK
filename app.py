@@ -120,7 +120,7 @@ def create_app():
     ##Routes
     api.register_blueprint(UserBlueprint, url_prefix=getApiPrefix('user'))
     api.register_blueprint(UserStoryBlueprint, url_prefix=getApiPrefix('user_story'))
-    api.register_blueprint(ItemBlueprint, url_prefix=getApiPrefix('items'))
+    api.register_blueprint(ItemBlueprint, url_prefix=getApiPrefix('item'))
     api.register_blueprint(ItemTypeBlueprint, url_prefix=getApiPrefix('item_type'))
     
     return app
