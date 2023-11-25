@@ -38,7 +38,7 @@ If you encounter any issues or have suggestions, please create a new [issue](.gi
 
 ## License
 
-This project is licensed under the [License Name]. Refer to the LICENSE file for more details.
+This project is licensed under the MIT. Refer to the LICENSE file for more details.
 <br><br><br><br>
 <h1><img src="https://flagsapi.com/ES/flat/64.png" height="35"> Español</h1>
 
@@ -80,4 +80,4 @@ Si encuentras algún problema o tienes sugerencias, por favor crea un nuevo [iss
 
 ## Licencia
 
-Este proyecto está licenciado bajo [Nombre de la Licencia]. Consulta el archivo LICENSE para más detalles.
+Este proyecto está licenciado bajo MIT. Consulta el archivo LICENSE para más detalles.
