@@ -117,6 +117,11 @@ def create_app():
     ##Routes
     api.register_blueprint(UserBlueprint, url_prefix=getApiPrefix('user'))
     
+    #api.register_blueprint(UserBlueprint, url_prefix=getApiPrefix('user_story')) # Change BluePrints
+    
+    
+    
+    
     return app
 
 app = create_app()
