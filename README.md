@@ -1,4 +1,59 @@
 
+# English
+## Environment Setup
+
+- Make sure you have Python 3.x installed.
+- Create a virtual environment: ```python -m venv venv```.
+- Activate the virtual environment:
+    - On Windows: ```venv\Scripts\activate```
+    - On Unix or MacOS: ```source venv/bin/activate```
+- Install dependencies: ```pip install -r requirements.txt```.
+
+## Environment Preparation
+- Execute the following commands:
+  ```bash
+  flask db init
+  flask db migrate
+  flask db upgrade
+  ```
+
+## Project Execution
+
+- Run the application: ```flask run```.
+- Open a web browser and visit ```http://localhost:5000```.
+
+## Contributions
+
+If you wish to contribute to the project, follow these steps:
+
+1. Fork the repository.
+2. Create a branch for your contribution: ```git checkout -b feature/new-feature```.
+3. Make your changes and commit: ```git commit -m "Add new feature"```.
+4. Push to your branch: ```git push origin feature/new-feature```.
+5. Open a Pull Request on GitHub.
+
+## Issues and Suggestions
+
+If you encounter any issues or have suggestions, please create a new [issue](.github/ISSUE_TEMPLATE).
+
+## License
+
+This project is licensed under the [License Name]. Refer to the LICENSE file for more details.
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Español
+
 ## Configuración del Entorno
 
 - Asegúrate de tener instalado Python 3.x.
