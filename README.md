@@ -20,7 +20,7 @@
 ## Project Execution
 
 - Run the application: ```flask run```.
-- Open a web browser and visit ```http://localhost:5000```.
+- Open a web browser and visit `http://127.0.0.1:5000/swagger-ui`.
 
 ## Contributions
 
@@ -62,7 +62,7 @@ flask db upgrade
 ## Ejecución del Proyecto
 
 - Ejecuta la aplicación: `flask run`.
-- Abre un navegador y visita `http://localhost:5000`.
+- Abre un navegador y visita `http://127.0.0.1:5000/swagger-ui`.
 
 ## Contribuciones
 
