@@ -1,5 +1,5 @@
 
-# English
+<h1><img src="https://flagsapi.com/GB/flat/64.png" height="35"> English</h1>
 ## Environment Setup
 
 - Make sure you have Python 3.x installed.
@@ -40,7 +40,7 @@ If you encounter any issues or have suggestions, please create a new [issue](.gi
 
 This project is licensed under the [License Name]. Refer to the LICENSE file for more details.
 <br><br><br><br>
-# Español
+<h1><img src="https://flagsapi.com/ES/flat/64.png" height="35"> Español</h1>
 
 ## Configuración del Entorno
 
