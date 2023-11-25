@@ -14,3 +14,6 @@ pip-selfcheck.json
 /venv
 /migrations
 /test
+/__pycache__
+/models/__pycache__
+resources/__pycache__
