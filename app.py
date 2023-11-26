@@ -24,7 +24,7 @@ from models import SessionTokenModel
 
 def create_app():
     app = Flask(__name__)
-    cors = CORS(app, resources={f"/{API_PREFIX}/*": {"origins": "*"}})
+    cors = CORS(app, supports_credentials=True)
 
     app.debug = DEBUG
     app.jinja_env.auto_reload = DEBUG
