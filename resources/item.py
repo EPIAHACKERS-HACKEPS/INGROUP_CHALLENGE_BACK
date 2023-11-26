@@ -120,3 +120,21 @@ class UserStoryCreate(MethodView):
             abort(500, message = str(e) if DEBUG else 'Could not save user.')
                         
         return item
+@blp.route('/count')
+class ItemCountResource(MethodView):
+    @jwt_required(refresh=True)
+    @blp.response(200)
+    def get(self):
+        # Obtener el número total de Items con type_id 1
+        count_type_1 = ItemModel.query.filter_by(type_id=1).count()
+
+        # Obtener el número total de Items con type_id 2
+        count_type_2 = ItemModel.query.filter_by(type_id=2).count()
+
+        # Crear un diccionario para el resultado
+        result = {
+            "bugs": count_type_1,
+            "feature_requests": count_type_2,
+        }
+
+        return jsonify(result)
