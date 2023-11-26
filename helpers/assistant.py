@@ -13,7 +13,7 @@ ASSISTANTS_FILE_PATH = 'assistants.json'
 
 openai = Openai()
 storage = PrivateStorage()
-storage_tmp = PrivateStorage(os.path.join(PRIVATE_STORAGE_PATH, "tmp"))
+# storage_tmp = PrivateStorage(os.path.join(PRIVATE_STORAGE_PATH, "tmp"))
 storage_file = PrivateStorage(os.path.join(PRIVATE_STORAGE_PATH, "files"))
 
 if not openai.assistant_compatibility():
@@ -71,7 +71,7 @@ def chat_assistant(assistant_id, message, files:list = [], file_ids:list = [], t
         storage_file.save(file, file_name, mode="wb")
         print(f"[DEBUG] SAVING FILE '{file_name}' - {file}")
         file_ids.append(openai.create_file(file=storage_file.read(file_name, mode="rb"), purpose='assistants').id)
-        files_prompts += f"\nFile: {file.filename}\n\t" + storage_file.read(file_name, mode="r").read()
+        files_prompts += f"\nFile {file.filename}:\n\t" + storage_file.read(file_name, mode="r").read()
         file_names.append(file_name)
       
     message = message + files_prompts #TODO: delete files_prompts
@@ -93,12 +93,15 @@ def chat_assistant(assistant_id, message, files:list = [], file_ids:list = [], t
     
     print(f"[DEBUG] RESPONSE: '\n\t{response}\n'")
     
-    storage_tmp.removeAllFiles()
+    # storage_tmp.removeAllFiles()
     
     print(f"[DEBUG] DELETING FILES")
     for file_id in file_ids:
         print(f"\t{file_id}")
-        openai.delete_file(file_id)
+        try:
+            openai.delete_file(file_id)
+        except:
+            pass
     
     
     if delete_thread:

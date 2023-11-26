@@ -75,17 +75,19 @@ class EndAssistant(MethodView):
         
         assistant_id = assistant.check_assistant("classification", ASSISTANT_CLASSIFICATION_PROMPT)
         
-        storage_tmp = assistant.storage_tmp
+        storage_file = assistant.storage_file
                 
         file_name = f"chat_bot_{int(time.time() * 1000)}.json"
         
-        storage_tmp.write(json.dumps(chat), file_name)
+        storage_file.write(json.dumps(chat), file_name)
         
         print(f"[DEBUG] FILE NAME: {file_name}")
 
-        # file_id = assistant.openai.create_file(file=storage_tmp.read(file_name, mode="rb"), purpose='assistants').id
+        # file_id = assistant.openai.create_file(file=storage_file.read(file_name, mode="rb"), purpose='assistants').id
         
         response, file_names = assistant.chat_assistant(assistant_id, message = PREFIX_PROMPT + "\nIt's a chat between an user and the app bot:\n" + storage_tmp.read(file_name, mode="r").read(), file_ids = []) #TODO: delete storage_tmp.read
+                
+        file_names.append(file_name)
                 
         result = procesClassification(response, file_names)
         

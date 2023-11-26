@@ -88,7 +88,8 @@ def train(userStory: UserStoryModel):
     output_file = {"user_story": {}}
     
     for file_name in file_names:
-        input_file += f"\nFile: {file_name}\n\t" + storage_file.read(file_name, mode="r").read()
+        f = storage_file.read(file_name, mode="r")
+        if f is not None: input_file += f"\nFile: {file_name}\n\t" + f.read()
     
     output_file['user_story']['title'] = userStory.title
     output_file['user_story']['description'] = userStory.description
