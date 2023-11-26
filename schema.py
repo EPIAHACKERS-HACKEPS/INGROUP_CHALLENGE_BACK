@@ -29,6 +29,7 @@ class ItemTypeUserStorySchema(Schema):
     type = fields.Str(dump_only=True)
 
 class ItemUserStorySchema(Schema):
+    id = fields.Int(dump_only=True)
     title = fields.Str(required=False)
     description = fields.Str(required=False)
     priority = fields.Int(required=False)
