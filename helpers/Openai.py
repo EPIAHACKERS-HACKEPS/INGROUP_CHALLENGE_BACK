@@ -87,6 +87,12 @@ class Openai():
         current_version = version.parse(openai.__version__)
         return current_version >= required_version
     
+    def update_assistant(self, assistant_id, instructions):
+        return self.client.beta.assistants.update(
+                                                    assistant_id,
+                                                    instructions=instructions
+                                                )
+    
     def createThread(self):
         return self.client.beta.threads.create()
     
@@ -106,6 +112,16 @@ class Openai():
         
     def create_thread(self):
         return self.client.beta.threads.create()
+    
+    def delete_thread(self, thread_id):
+        return self.client.beta.threads.delete(thread_id)
+        
+    def exist_thread(self, thread_id):
+        try:
+            self.client.beta.threads.retrieve(thread_id)
+            return True
+        except:
+            return False
         
     def create_message(self, content, thread_id, role = "user", file_ids = []):
         return self.client.beta.threads.messages.create(thread_id=thread_id, role=role, content=content, file_ids = file_ids) if len(file_ids) > 0 else self.client.beta.threads.messages.create(thread_id=thread_id, role=role, content=content)
@@ -119,5 +135,14 @@ class Openai():
     def get_response(self, thread_id):
         return self.client.beta.threads.messages.list(thread_id=thread_id).data[0].content[0].text.value
     
+    def get_messages(self, thread_id):
+        return self.client.beta.threads.messages.list(thread_id).data
+    
     def create_file(self, file, purpose):
         return self.client.files.create(file=file, purpose=purpose)
+    
+    def delete_file(self, file_id):
+        return self.client.files.delete(file_id)
+    
+    def list_files(self):
+        return self.client.files.list()

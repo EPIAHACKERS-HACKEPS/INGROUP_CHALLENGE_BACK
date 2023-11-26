@@ -18,6 +18,7 @@ from resources.user_story import blp as UserStoryBlueprint
 from resources.item import blp as ItemBlueprint
 from resources.item_type import blp as ItemTypeBlueprint
 from resources.classification import blp as ClassificationBlueprint
+from resources.assistant import blp as AssistantBlueprint
 
 from models import SessionTokenModel
 
@@ -120,6 +121,7 @@ def create_app():
     api.register_blueprint(ItemBlueprint, url_prefix=getApiPrefix('item'))
     api.register_blueprint(ItemTypeBlueprint, url_prefix=getApiPrefix('item_type'))
     api.register_blueprint(ClassificationBlueprint, url_prefix=getApiPrefix('classification'))
+    api.register_blueprint(AssistantBlueprint, url_prefix=getApiPrefix('assistant'))
     
     return app
 

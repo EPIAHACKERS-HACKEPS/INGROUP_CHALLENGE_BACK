@@ -5,6 +5,7 @@ class UserStoryModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(255), nullable=False)
-    titulo = db.Column(db.String(255), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    file_names = db.Column(db.String(512), nullable=True)
 
     items = db.relationship('ItemModel', back_populates='user_story')

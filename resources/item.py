@@ -5,9 +5,11 @@ from flask.views import MethodView
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from passlib.hash import pbkdf2_sha256
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt, get_jwt_identity, decode_token
+from flask import request, jsonify
 
 import uuid
 import datetime
+from helpers.userStory import train
 
 from models import ItemModel
 from schema import ItemSchema
@@ -35,7 +37,38 @@ class ItemResource(MethodView):
 
     @blp.response(200, ItemSchema(many=True))
     def get(self):
-        return ItemModel.query.all()
+        # Parámetros opcionales de paginación
+        page = request.args.get('page', default=1, type=int)
+        per_page = request.args.get('per_page', default=10, type=int)
+        
+        # Nuevo parámetro para el orden (ascendente o descendente)
+        order_by = request.args.get('order_by', default='desc', type=str)
+        
+        # Cálculo del offset
+        offset = (page - 1) * per_page
+
+        # Consulta paginada a la base de datos
+        if order_by == 'asc':
+            user_stories = ItemModel.query.order_by(ItemModel.id.asc()).offset(offset).limit(per_page).all()
+        elif order_by == 'desc':
+            user_stories = ItemModel.query.order_by(ItemModel.id.desc()).offset(offset).limit(per_page).all()
+        else:
+            abort(400, message='Invalid order_by parameter. Use "asc" or "desc".')
+
+        # Obtener el total de elementos
+        total_elements = ItemModel.query.count()
+
+        # Serializar los resultados
+        item_schema = ItemSchema(many=True)
+        result = item_schema.dump(user_stories)
+
+        # Añadir el total de elementos al JSON de respuesta
+        result_with_total = {
+            'total_elements': total_elements,
+            'elements': result
+        }
+
+        return jsonify(result_with_total)
 
 
 @blp.route('/<int:item_id>')
@@ -57,6 +90,9 @@ class ItemItemResource(MethodView):
             addAndCommit(item)
         except SQLAlchemyError as e:
             abort(500, message=str(e))
+            
+        train(item.user_story)
+            
         return item
 
     @blp.response(204, description='Item was removed')
