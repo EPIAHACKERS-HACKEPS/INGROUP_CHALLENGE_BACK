@@ -1,5 +1,6 @@
 import json
 import time
+from flask_cors import cross_origin
 from flask_smorest import Blueprint, abort
 from helpers import assistant
 from flask.views import MethodView
@@ -55,6 +56,7 @@ class EndAssistant(MethodView):
     
     @blp.response(200, AssistantSchema)
     @blp.alt_response(404, description='The thread was not found')
+    @cross_origin(origin='*',headers=['Content- Type','Authorization'])
     def get(self):
         
         thread_id = json.loads(assistant.storage.read(f"thread_id.json", mode="r").read())["id"]
