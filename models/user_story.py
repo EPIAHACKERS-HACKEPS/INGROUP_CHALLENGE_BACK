@@ -8,4 +8,4 @@ class UserStoryModel(db.Model):
     title = db.Column(db.String(255), nullable=False)
     file_names = db.Column(db.String(512), nullable=True)
 
-    items = db.relationship('ItemModel', back_populates='user_story')
+    items = db.relationship('ItemModel', cascade='all, delete', back_populates='user_story')
