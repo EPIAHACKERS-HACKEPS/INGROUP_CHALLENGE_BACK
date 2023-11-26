@@ -12,6 +12,7 @@ class UserTokensSchema(Schema):
     
 class ItemSchema(Schema):
     id = fields.Int(dump_only=True)
+    title = fields.Str(required=True)
     description = fields.Str(required=True)
     id_userstory = fields.Int(required=True)
     item_type_id = fields.Int(required=True)
@@ -28,6 +29,7 @@ class ItemTypeUserStorySchema(Schema):
     type = fields.Str(dump_only=True)
 
 class ItemUserStorySchema(Schema):
+    title = fields.Str(required=False)
     description = fields.Str(required=False)
     priority = fields.Int(required=False)
     item_type = fields.Nested(ItemTypeUserStorySchema(), attribute="item_type", required=False)

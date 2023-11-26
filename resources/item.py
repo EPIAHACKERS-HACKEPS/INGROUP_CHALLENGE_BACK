@@ -22,7 +22,7 @@ blp = Blueprint('items', __name__, description='Item access')
 
 @blp.route('')
 class ItemResource(MethodView):
-
+    @jwt_required(fresh=True)
     @blp.arguments(ItemSchema)
     @blp.response(201, ItemSchema)
     def post(self, item_data):
@@ -34,7 +34,7 @@ class ItemResource(MethodView):
             abort(500, message=str(e))
 
         return item
-
+    @jwt_required(fresh=True)
     @blp.response(200, ItemSchema(many=True))
     def get(self):
         # Parámetros opcionales de paginación
@@ -73,12 +73,12 @@ class ItemResource(MethodView):
 
 @blp.route('/<int:item_id>')
 class ItemItemResource(MethodView):
-
+    @jwt_required(fresh=True)
     @blp.response(200, ItemSchema)
     @blp.alt_response(404, description='Item not found')
     def get(self, item_id):
         return ItemModel.query.get_or_404(item_id)
-    
+    @jwt_required(fresh=True)
     @blp.arguments(ItemSchema)
     @blp.response(200, ItemSchema)
     @blp.alt_response(404, description='Item not found')
@@ -94,7 +94,7 @@ class ItemItemResource(MethodView):
         train(item.user_story)
             
         return item
-
+    @jwt_required(fresh=True)
     @blp.response(204, description='Item was removed')
     @blp.alt_response(404, description='Item not found')
     def delete(self, item_id):
@@ -108,7 +108,7 @@ class ItemItemResource(MethodView):
         return {}
 @blp.route('/create')
 class UserStoryCreate(MethodView):
-    
+    @jwt_required(fresh=True)
     @blp.arguments(ItemSchema)
     @blp.response(201, ItemSchema)
     def post(self, user_data):
