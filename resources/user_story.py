@@ -7,6 +7,7 @@ from passlib.hash import pbkdf2_sha256
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt, get_jwt_identity, decode_token
 from helpers.userStory import train
 from flask import request, jsonify
+from models import UserStoryModel, RelatedModel
 
 
 from models import UserStoryModel
@@ -95,11 +96,17 @@ class UserStoryItemResource(MethodView):
         train(user_story)
 
         return user_story
+
     @jwt_required(refresh=True)
     @blp.response(204, description='User Story was removed')
     @blp.alt_response(404, description='User Story not found')
     def delete(self, id):
         user_story = UserStoryModel.query.get_or_404(id)
+
+        # Eliminar en cascada (si existe una relación que admite la eliminación en cascada)
+        if hasattr(UserStoryModel, 'related_model_relationship'):
+            for related_item in user_story.related_model_relationship:
+                db.session.delete(related_item)
 
         try:
             deleteAndCommit(user_story)

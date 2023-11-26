@@ -92,14 +92,13 @@ class ItemItemResource(MethodView):
             abort(500, message=str(e))
             
         train(item.user_story)
-            
         return item
+    
     @jwt_required(refresh=True)
     @blp.response(204, description='Item was removed')
     @blp.alt_response(404, description='Item not found')
     def delete(self, item_id):
         item = ItemModel.query.get_or_404(item_id)
-
         try:
             deleteAndCommit(item)
         except SQLAlchemyError as e:
