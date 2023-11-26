@@ -126,11 +126,9 @@ class ItemCountResource(MethodView):
     @blp.response(200)
     def get(self):
         # Obtener el número total de Items con type_id 1
-        count_type_1 = ItemModel.query.filter_by(type_id=1).count()
-
+        count_type_1 = ItemModel.query.filter_by(type_id=2).count()
         # Obtener el número total de Items con type_id 2
-        count_type_2 = ItemModel.query.filter_by(type_id=2).count()
-
+        count_type_2 = ItemModel.query.filter_by(type_id=3).count()
         # Crear un diccionario para el resultado
         result = {
             "bugs": count_type_1,
