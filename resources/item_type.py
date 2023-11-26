@@ -20,7 +20,7 @@ blp = Blueprint('item_types', __name__, description='Item Type access')
 
 @blp.route('')
 class ItemTypeResource(MethodView):
-
+    @jwt_required(fresh=True)
     @blp.arguments(ItemTypeSchema)
     @blp.response(201, ItemTypeSchema)
     def post(self, item_type_data):
@@ -32,7 +32,7 @@ class ItemTypeResource(MethodView):
             abort(500, message=str(e))
 
         return item_type
-
+    @jwt_required(fresh=True)
     @blp.response(200, ItemTypeSchema(many=True))
     def get(self):
         return ItemTypeModel.query.all()
@@ -40,12 +40,12 @@ class ItemTypeResource(MethodView):
 
 @blp.route('/<int:item_type_id>')
 class ItemTypeItemResource(MethodView):
-
+    @jwt_required(fresh=True)
     @blp.response(200, ItemTypeSchema)
     @blp.alt_response(404, description='Item Type not found')
     def get(self, item_type_id):
         return ItemTypeModel.query.get_or_404(item_type_id)
-    
+    @jwt_required(fresh=True)  
     @blp.arguments(ItemTypeSchema)
     @blp.response(200, ItemTypeSchema)
     @blp.alt_response(404, description='Item Type not found')
@@ -60,6 +60,8 @@ class ItemTypeItemResource(MethodView):
             abort(500, message=str(e))
 
         return item_type
+    
+    @jwt_required(fresh=True)
     @blp.response(204, description='Item Type was removed')
     @blp.alt_response(404, description='Item Type not found')
     def delete(self, item_type_id):
@@ -75,6 +77,7 @@ class ItemTypeItemResource(MethodView):
 @blp.route('/create')
 class UserStoryCreate(MethodView):
     
+    @jwt_required(fresh=True)
     @blp.arguments(ItemTypeSchema)
     @blp.response(201, ItemTypeSchema)
     def post(self, user_data):
