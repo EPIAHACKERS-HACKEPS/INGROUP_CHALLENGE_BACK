@@ -64,7 +64,7 @@ class ItemResource(MethodView):
         # Añadir el total de elementos al JSON de respuesta
         result_with_total = {
             'total_elements': total_elements,
-            'user_stories': result
+            'elements': result
         }
 
         return jsonify(result_with_total)
