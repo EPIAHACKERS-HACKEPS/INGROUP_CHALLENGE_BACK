@@ -6,6 +6,7 @@ from flask_smorest import abort, Api
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from sqlalchemy.exc import SQLAlchemyError
+from flask_cors import CORS
 
 from db import db, deleteAndCommit
 
@@ -23,7 +24,8 @@ from models import SessionTokenModel
 
 def create_app():
     app = Flask(__name__)
-    
+    cors = CORS(app, resources={f"/{API_PREFIX}/*": {"origins": "*"}})
+
     app.debug = DEBUG
     app.jinja_env.auto_reload = DEBUG
     
