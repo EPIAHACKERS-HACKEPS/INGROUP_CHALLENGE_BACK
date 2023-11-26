@@ -25,13 +25,12 @@ class UserStoryResource(MethodView):
     @blp.response(201, UserStorySchema)
     def post(self, user_story_data):
         user_story = UserStoryModel(**user_story_data)
-
         try:
             addAndCommit(user_story)
         except SQLAlchemyError as e:
             abort(500, message=str(e))
-
         return user_story
+    
     @jwt_required(refresh=True)
     @blp.response(200, UserStorySchema(many=True))
     def get(self):
