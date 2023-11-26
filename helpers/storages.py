@@ -73,8 +73,11 @@ class PrivateStorage(FileStorage):
     
     def remove(self, name) -> bool:
         if self.exists(name):
-            os.remove(os.path.join(self.path, name))
-            return True
+            try:
+                os.remove(os.path.join(self.path, name))
+                return True
+            except:
+                return False
         
         return False
     

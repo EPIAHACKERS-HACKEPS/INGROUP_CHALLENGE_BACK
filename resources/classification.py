@@ -7,10 +7,10 @@ from helpers import assistant
 from flask.views import MethodView
 
 from globals import ASSISTANT_CLASSIFICATION_PROMPT, PREFIX_PROMPT
+from helpers.userStory import procesClassification
 from schema import AssistantSchema
 
-blp = Blueprint('assitant', __name__, description='Start chat with assistant')
-
+blp = Blueprint('assitant classification', __name__, description='Classification assistant')
 
 @blp.route('')
 class Classification(MethodView):
@@ -25,24 +25,7 @@ class Classification(MethodView):
         
         prompt = PREFIX_PROMPT + "\n" + (request.form.get("prompt") or "").strip()
         
-        response = assistant.chat_assistant(assistant_id, prompt, files = files)
+        response, file_names = assistant.chat_assistant(assistant_id, prompt, files = files)
                 
-        try:
-            
-            response_json = "{}"
-            
-            init = response.find("{")
-            end = response.rfind("}") + 1
-            
-            if init >=0 and end > 0:        
-                response_json = response[init:end]
-            
-            response_json = json.loads(response_json)
-            response_json['response'] = response
-            return response_json
-        except:
-            return {
-                "user_story": {},
-                "response": response,
-            }
+        return procesClassification(response, file_names)
                 

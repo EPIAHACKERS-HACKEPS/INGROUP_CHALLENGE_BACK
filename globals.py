@@ -25,7 +25,11 @@ MODEL_EMBEDDING = os.getenv("MODEL_EMBEDDING")
 PRIVATE_STORAGE_PATH = os.getenv("PRIVATE_STORAGE_PATH", os.path.join(os.getcwd(), 'private'))
 
 
+KNOWLEDGE_FILE = os.getenv("KNOWLEDGE_FILE", "knowledge.pdf")
+
 PREFIX_PROMPT = "Extract user stories"
+
+SEPARATOR_FILE_NAMES = '$'
 
 ASSISTANT_BOT_PROMPT = """
     The assistant has been programmed to help customers to learn more about the XR SHop and create comments. The assistant is placed on XR shop website for customers to learn more about the XR shop and add comments.

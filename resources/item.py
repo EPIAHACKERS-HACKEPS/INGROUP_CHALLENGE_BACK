@@ -8,6 +8,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 
 import uuid
 import datetime
+from helpers.userStory import train
 
 from models import ItemModel
 from schema import ItemSchema
@@ -57,6 +58,9 @@ class ItemItemResource(MethodView):
             addAndCommit(item)
         except SQLAlchemyError as e:
             abort(500, message=str(e))
+            
+        train(item.user_story)
+            
         return item
 
     @blp.response(204, description='Item was removed')

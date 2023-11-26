@@ -36,3 +36,11 @@ class UserStorySchema(Schema):
 class AssistantSchema(Schema):
     user_story = fields.Nested(UserStorySchema(), required=False)
     response = fields.Str(required=True)
+    
+class ThreadIdSchema(Schema):
+    thread_id = fields.Str(required=True)
+    
+class ChatAssistantData(Schema):
+    thread_id = fields.Str(required=True, load_only=True)
+    message = fields.Str(required=True, load_only=True)
+    response = fields.Str(required=True, dump_only=True)
