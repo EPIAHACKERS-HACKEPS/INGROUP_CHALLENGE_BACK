@@ -42,18 +42,22 @@ class ChatAssistant(MethodView):
         
         assistant_id = assistant.check_assistant("bot", ASSISTANT_BOT_PROMPT, files = [assistant.storage.read(KNOWLEDGE_FILE, mode="rb")])
         
-        response = assistant.chat_assistant(assistant_id, message = user_input, thread_id = thread_id)
+        response, _ = assistant.chat_assistant(assistant_id, message = user_input, thread_id = thread_id)
         
         print(f"[DEBUG] RESPONSE: {response}")
         
+        assistant.storage.write(json.dumps({"id": thread_id}), f"thread_id.json")
+        
         return {"response": response}
     
-@blp.route('/end/<string:thread_id>')
+@blp.route('/end')
 class EndAssistant(MethodView):
     
     @blp.response(204, description="Assistant ended")
     @blp.alt_response(404, description='The thread was not found')
-    def get(self, thread_id):
+    def get(self):
+        
+        thread_id = json.loads(assistant.storage.read(f"thread_id.json", mode="r").read())["id"]
         
         print(f"[DEBUG] ENDING ASSISTANT '{thread_id}'")
         

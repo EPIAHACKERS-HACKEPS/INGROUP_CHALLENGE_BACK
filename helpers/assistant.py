@@ -67,10 +67,11 @@ def chat_assistant(assistant_id, message, files:list = [], file_ids:list = [], t
     file_names = []
     
     for file in files:
-        file_name = file.filename + "_" + int(time.time() * 1000)
+        file_name = f"{int(time.time() * 1000)}_" + file.filename
         storage_file.save(file, file_name, mode="wb")
-        file_ids.append(openai.create_file(file=storage_tmp.read(file_name, mode="rb"), purpose='assistants').id)
-        files_prompts += f"\nFile: {file.filename}\n\t" + storage_file.read(file.file_name, mode="r").read()
+        print(f"[DEBUG] SAVING FILE '{file_name}' - {file}")
+        file_ids.append(openai.create_file(file=storage_file.read(file_name, mode="rb"), purpose='assistants').id)
+        files_prompts += f"\nFile: {file.filename}\n\t" + storage_file.read(file_name, mode="r").read()
         file_names.append(file_name)
       
     message = message + files_prompts #TODO: delete files_prompts
