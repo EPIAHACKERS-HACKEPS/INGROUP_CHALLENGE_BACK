@@ -36,12 +36,20 @@ class UserStoryResource(MethodView):
         # Parámetros opcionales de paginación
         page = request.args.get('page', default=1, type=int)
         per_page = request.args.get('per_page', default=10, type=int)
-
+        
+        # Nuevo parámetro para el orden (ascendente o descendente)
+        order_by = request.args.get('order_by', default='desc', type=str)
+        
         # Cálculo del offset
         offset = (page - 1) * per_page
 
         # Consulta paginada a la base de datos
-        user_stories = UserStoryModel.query.offset(offset).limit(per_page).all()
+        if order_by == 'asc':
+            user_stories = UserStoryModel.query.order_by(UserStoryModel.id.asc()).offset(offset).limit(per_page).all()
+        elif order_by == 'desc':
+            user_stories = UserStoryModel.query.order_by(UserStoryModel.id.desc()).offset(offset).limit(per_page).all()
+        else:
+            abort(400, message='Invalid order_by parameter. Use "asc" or "desc".')
 
         # Obtener el total de elementos
         total_elements = UserStoryModel.query.count()
