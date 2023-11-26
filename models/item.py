@@ -10,6 +10,6 @@ class ItemModel(db.Model):
     id_userstory = db.Column(db.Integer, db.ForeignKey('user_story.id'), nullable=False)
     item_type_id = db.Column(db.Integer, db.ForeignKey('item_types.id'), nullable=False)
     
-    user_story = db.relationship('UserStoryModel', back_populates='items')
+    user_story = db.relationship('UserStoryModel', back_populates='items' cascade="all,delete")
     item_type = db.relationship('ItemTypeModel')
     
