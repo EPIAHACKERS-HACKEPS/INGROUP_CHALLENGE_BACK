@@ -29,3 +29,9 @@ helpers/__pycache__/Openai.cpython-311.pyc
 helpers/__pycache__/assistant.cpython-311.pyc
 helpers/__pycache__/__init__.cpython-311.pyc
 __pycache__/app.cpython-311.pyc
+helpers/__pycache__/assistant.cpython-311.pyc
+resources/__pycache__/classification.cpython-311.pyc
+resources/__pycache__/item.cpython-311.pyc
+resources/__pycache__/item_type.cpython-311.pyc
+resources/__pycache__/user.cpython-311.pyc
+resources/__pycache__/user_story.cpython-311.pyc
