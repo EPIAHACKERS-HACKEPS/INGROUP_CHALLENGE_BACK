@@ -85,7 +85,7 @@ class EndAssistant(MethodView):
 
         # file_id = assistant.openai.create_file(file=storage_file.read(file_name, mode="rb"), purpose='assistants').id
         
-        response, file_names = assistant.chat_assistant(assistant_id, message = PREFIX_PROMPT + "\nIt's a chat between an user and the app bot:\n" + storage_tmp.read(file_name, mode="r").read(), file_ids = [file_id]) #TODO: delete storage_tmp.read
+        response, file_names = assistant.chat_assistant(assistant_id, message = PREFIX_PROMPT + "\nIt's a chat between an user and the app bot:\n" + storage_file.read(file_name, mode="r").read(), file_ids = []) #TODO: delete storage_tmp.read
                 
         file_names.append(file_name)
                 
