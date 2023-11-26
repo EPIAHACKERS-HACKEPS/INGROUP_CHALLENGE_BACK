@@ -108,7 +108,6 @@ class Openai():
         return self.client.beta.threads.create()
         
     def create_message(self, content, thread_id, role = "user", file_ids = []):
-        print("content:",content)
         return self.client.beta.threads.messages.create(thread_id=thread_id, role=role, content=content, file_ids = file_ids) if len(file_ids) > 0 else self.client.beta.threads.messages.create(thread_id=thread_id, role=role, content=content)
     
     def run_thread(self, thread_id, assistant_id):
@@ -119,3 +118,6 @@ class Openai():
     
     def get_response(self, thread_id):
         return self.client.beta.threads.messages.list(thread_id=thread_id).data[0].content[0].text.value
+    
+    def create_file(self, file, purpose):
+        return self.client.files.create(file=file, purpose=purpose)
