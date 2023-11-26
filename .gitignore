@@ -36,3 +36,5 @@ resources/__pycache__/item_type.cpython-311.pyc
 resources/__pycache__/user.cpython-311.pyc
 resources/__pycache__/user_story.cpython-311.pyc
 resources/__pycache__/item_type.cpython-311.pyc
+/private/assistants.json
+private\assistants.json

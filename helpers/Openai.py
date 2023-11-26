@@ -139,6 +139,7 @@ class Openai():
         return self.client.beta.threads.messages.list(thread_id).data
     
     def create_file(self, file, purpose):
+        print(file)
         return self.client.files.create(file=file, purpose=purpose)
     
     def delete_file(self, file_id):
