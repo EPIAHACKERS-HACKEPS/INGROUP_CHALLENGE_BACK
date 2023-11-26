@@ -21,7 +21,12 @@ if not openai.assistant_compatibility():
 
 def check_assistant(assistant_name, instructions = "", assistants_file = ASSISTANTS_FILE_PATH, files = []):
     
+    print(f"[DEBUG] CHECKING ASSISTANT '{assistant_name}'")
+    
     def create(assistants: dict):
+        
+        print(f"[DEBUG] CREATING ASSISTANT '{assistant_name}'")
+        
         assistant = openai.create_assistant(instructions = instructions, name = assistant_name, tools = [{"type": "retrieval"}], files=files)
 
         assistants[assistant_name] = {
@@ -31,6 +36,8 @@ def check_assistant(assistant_name, instructions = "", assistants_file = ASSISTA
             "instructions": assistant.instructions,
             "file_ids": assistant.file_ids
         }
+
+        print(f"\t'{assistant_name}'")
 
         storage.write(json.dumps(assistants), assistants_file)
 
@@ -47,9 +54,13 @@ def check_assistant(assistant_name, instructions = "", assistants_file = ASSISTA
     
     return create(assistants)["id"]
 
-def chat_assistant(assistant_id, message, files:list = [], file_ids:list = [], thread_id = None):
+def chat_assistant(assistant_id, message, files:list = [], file_ids:list = [], thread_id = None, delete_thread = False):
+    
+    print(f"[DEBUG] CHATTING WITH ASSISTANT '{assistant_id}'")
     
     thread_id = thread_id or openai.create_thread().id
+    
+    print(f"[DEBUG] THREAD ID: '{thread_id}'")
     
     files_prompts = ""
     
@@ -64,27 +75,44 @@ def chat_assistant(assistant_id, message, files:list = [], file_ids:list = [], t
       
     message = message + files_prompts #TODO: delete files_prompts
       
-    print("message:")
-    print(message)
-      
+    print(f"[DEBUG] MESSAGE: '{message}'")
+    print(f"[DEBUG] FILE IDS: '{file_ids}'")
+    print(f"[DEBUG] FILE NAMES: '{file_names}'")
+    
+    print(f"[DEBUG] CREATING MESSAGE")  
     openai.create_message(content = message, thread_id = thread_id, file_ids = []) #TODO: Add file_ids
         
+    print(f"[DEBUG] CREATING RUN")  
     run_id = openai.run_thread(thread_id = thread_id, assistant_id = assistant_id).id
-        
+   
+    print(f"[DEBUG] WAITING FOR RESPONSE")     
     while openai.get_status_thread(thread_id = thread_id, run_id = run_id) != "completed": sleep(1)
         
     response = openai.get_response(thread_id = thread_id)
     
+    print(f"[DEBUG] RESPONSE: '\n\t{response}\n'")
+    
     storage_tmp.removeAllFiles()
     
+    print(f"[DEBUG] DELETING FILES")
     for file_id in file_ids:
+        print(f"\t{file_id}")
         openai.delete_file(file_id)
+    
+    
+    if delete_thread:
+        print(f"[DEBUG] DELETING THREAD")
+        openai.delete_thread(thread_id)
     
     return response, file_names
 
 def trainClassification(assistant_id, input_file, output_file):
     
+    print(f"[DEBUG] TRAINING ASSISTANT '{assistant_id}'")
+    
     instructions = f"Dado el/los siguientes archivos:\n{input_file}\n\nDeberías generar la siguiente respuesta:\n{output_file}"
+    
+    print(f"[DEBUG] INSTRUCTIONS: '\n\t{instructions}\n'")
     
     openai.update_assistant(assistant_id, instructions = instructions)
     

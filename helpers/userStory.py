@@ -11,6 +11,9 @@ from globals import SEPARATOR_FILE_NAMES, ASSISTANT_CLASSIFICATION_PROMPT
 from helpers.assistant import check_assistant, storage_file, trainClassification
 
 def createUserStory(title, description, file_names):
+    
+    print(f"[DEBUG] CREATING USER STORY '{title}' - '{description}' - '{file_names}'")
+    
     userStory = UserStoryModel(title = title, description = description, file_names = file_names)
     
     try:
@@ -21,6 +24,9 @@ def createUserStory(title, description, file_names):
     return userStory
 
 def createItem(type: ItemTypeModel, title, description, priority, userStory: UserStoryModel):
+    
+    print(f"[DEBUG] CREATING ITEM '{type.type}' - '{title}' - '{description}' - '{priority}' - '{userStory.id}'")
+    
     item = ItemModel(item_type_id = type.id, title = title, description = description, priority = priority, id_userstory = userStory.id)
 
     try:
@@ -31,6 +37,9 @@ def createItem(type: ItemTypeModel, title, description, priority, userStory: Use
     return item
 
 def procesClassification(response, file_names):
+    
+    print(f"[DEBUG] PROCESSING CLASSIFICATION")
+    
     try:
         
         print(response)
@@ -68,6 +77,9 @@ def procesClassification(response, file_names):
             }
         
 def train(userStory: UserStoryModel):
+    
+    print(f"[DEBUG] TRAINING MODEL BY USER STORY '{userStory.id}'")
+    
     file_names = userStory.file_names
     
     if file_names is not None: file_names = file_names.split(SEPARATOR_FILE_NAMES)
@@ -91,6 +103,9 @@ def train(userStory: UserStoryModel):
         })
 
     output_file = json.dumps(output_file)
+    
+    print(f"[DEBUG] INPUT FILE: '{input_file}'")
+    print(f"[DEBUG] OUTPUT FILE: '{output_file}'")
     
     assistant_id = check_assistant("classification", ASSISTANT_CLASSIFICATION_PROMPT)
     

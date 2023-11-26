@@ -19,11 +19,17 @@ class Classification(MethodView):
     @blp.response(200, AssistantSchema)
     def post(self):
         
+        print(f"[DEBUG] CLASSIFICATION ASSISTANT")
+        
         assistant_id = assistant.check_assistant("classification", ASSISTANT_CLASSIFICATION_PROMPT)
         
         files = request.files.getlist("files")
         
+        print(f"[DEBUG] FILES: {files}")
+        
         prompt = PREFIX_PROMPT + "\n" + (request.form.get("prompt") or "").strip()
+        
+        print(f"[DEBUG] PROMPT: {prompt}")
         
         response, file_names = assistant.chat_assistant(assistant_id, prompt, files = files)
                 
