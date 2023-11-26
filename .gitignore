@@ -15,5 +15,4 @@ pip-selfcheck.json
 /migrations
 /test
 /__pycache__
-/models/__pycache__
-resources/__pycache__
+/*/__pycache__

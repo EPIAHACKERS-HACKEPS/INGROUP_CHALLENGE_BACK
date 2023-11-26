@@ -1,14 +1,17 @@
 import json
+import os
 from time import sleep
 
 from helpers import Openai
 from flask import Flask, request, jsonify
 from helpers.storages import PrivateStorage
+from globals import PRIVATE_STORAGE_PATH
 
 ASSISTANTS_FILE_PATH = 'assistants.json'
 
 openai = Openai()
 storage = PrivateStorage()
+storage_tmp = PrivateStorage(os.path.join(PRIVATE_STORAGE_PATH, "tmp"))
 
 if not openai.assistant_compatibility():
     raise ValueError(f"Error: OpenAI version is less than the required version 1.1.1")
@@ -46,14 +49,17 @@ def chat_assistant(assistant_id, message, files:list = [], file_ids:list = []):
     thread_id = openai.create_thread().id
     
     for file in files:
-        pass
-    
+        storage_tmp.save(file, file.filename, mode="wb")
+        file_ids.append(openai.create_file(file=storage_tmp.read(file.filename, mode="rb"), purpose='assistants').id)
+      
     openai.create_message(content = message, thread_id = thread_id, file_ids = file_ids)
-    
+        
     run_id = openai.run_thread(thread_id = thread_id, assistant_id = assistant_id).id
-    
+        
     while openai.get_status_thread(thread_id = thread_id, run_id = run_id) != "completed": sleep(1)
         
     response = openai.get_response(thread_id = thread_id)
+    
+    storage_tmp.removeAllFiles()
     
     return response

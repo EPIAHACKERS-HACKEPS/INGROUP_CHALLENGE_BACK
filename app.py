@@ -37,9 +37,7 @@ def create_app():
     
     ##BBDD
     app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
-        
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    
     app.config['JWT_SECRET_KEY'] = SECRET_JWT
     app.config['JWT_TOKEN_LOCATION'] = ['headers']
     app.config['JWT_HEADER_NAME'] = 'Authorization'
@@ -60,7 +58,6 @@ def create_app():
     def getApiPrefix(url): return f"/{API_PREFIX}/{url}"
     
     ##JWT CHECK
-
     @jwt.token_in_blocklist_loader
     def check_if_token_in_blocklist(jwt_header, jwt_payload):
         
@@ -83,7 +80,6 @@ def create_app():
             return True
             
     ## JWT ERRORS
-    
     @jwt.invalid_token_loader
     def invalid_token_callback(error):                
         return jsonify({"message": error, "error": "invalid_token"}), 401
@@ -109,7 +105,6 @@ def create_app():
         return jsonify({"message": "The token has been revoked.", "error": "token_revoked"}), 401
     
     ## NotImplementedError
-    
     @app.errorhandler(NotImplementedError)
     def handle_not_implemented_error(error):
         response = {

@@ -31,6 +31,9 @@ class FileStorage(abc.ABC):
         
         allOk = True
         
+        if len(names) == 0:
+            names = os.listdir(self.path)
+        
         for name in names:
             if not self.remove(name):
                 allOk = False
@@ -46,8 +49,8 @@ class FileStorage(abc.ABC):
         pass
     
 class PrivateStorage(FileStorage):
-    def __init__(self):
-        self.path = PRIVATE_STORAGE_PATH
+    def __init__(self, path = PRIVATE_STORAGE_PATH):
+        self.path = path
         
         if not os.path.exists(self.path):
             os.makedirs(self.path)
