@@ -1,4 +1,47 @@
 
+<h1><img src="https://flagsapi.com/GB/flat/64.png" height="35"> English</h1>
+## Environment Setup
+
+- Make sure you have Python 3.x installed.
+- Create a virtual environment: ```python -m venv venv```.
+- Activate the virtual environment:
+    - On Windows: ```venv\Scripts\activate```
+    - On Unix or MacOS: ```source venv/bin/activate```
+- Install dependencies: ```pip install -r requirements.txt```.
+
+## Environment Preparation
+- Execute the following commands:
+  ```bash
+  flask db init
+  flask db migrate
+  flask db upgrade
+  ```
+
+## Project Execution
+
+- Run the application: ```flask run```.
+- Open a web browser and visit `http://127.0.0.1:5000/swagger-ui`.
+
+## Contributions
+
+If you wish to contribute to the project, follow these steps:
+
+1. Fork the repository.
+2. Create a branch for your contribution: ```git checkout -b feature/new-feature```.
+3. Make your changes and commit: ```git commit -m "Add new feature"```.
+4. Push to your branch: ```git push origin feature/new-feature```.
+5. Open a Pull Request on GitHub.
+
+## Issues and Suggestions
+
+If you encounter any issues or have suggestions, please create a new [issue](.github/ISSUE_TEMPLATE).
+
+## License
+
+This project is licensed under the MIT. Refer to the LICENSE file for more details.
+<br><br><br><br>
+<h1><img src="https://flagsapi.com/ES/flat/64.png" height="35"> Español</h1>
+
 ## Configuración del Entorno
 
 - Asegúrate de tener instalado Python 3.x.
@@ -19,7 +62,7 @@ flask db upgrade
 ## Ejecución del Proyecto
 
 - Ejecuta la aplicación: `flask run`.
-- Abre un navegador y visita `http://localhost:5000`.
+- Abre un navegador y visita `http://127.0.0.1:5000/swagger-ui`.
 
 ## Contribuciones
 
@@ -37,4 +80,4 @@ Si encuentras algún problema o tienes sugerencias, por favor crea un nuevo [iss
 
 ## Licencia
 
-Este proyecto está licenciado bajo [Nombre de la Licencia]. Consulta el archivo LICENSE para más detalles.
+Este proyecto está licenciado bajo MIT. Consulta el archivo LICENSE para más detalles.
