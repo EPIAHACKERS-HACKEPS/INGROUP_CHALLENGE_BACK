@@ -19,7 +19,7 @@ blp = Blueprint('user_stories', __name__, description='User Story access')
 
 @blp.route('')
 class UserStoryResource(MethodView):
-    @jwt_required(fresh=True)
+    @jwt_required(refresh=True)
     @blp.arguments(UserStorySchema)
     @blp.response(201, UserStorySchema)
     def post(self, user_story_data):
@@ -31,7 +31,7 @@ class UserStoryResource(MethodView):
             abort(500, message=str(e))
 
         return user_story
-    @jwt_required(fresh=True)
+    @jwt_required(refresh=True)
     @blp.response(200, UserStorySchema(many=True))
     def get(self):
         # Parámetros opcionales de paginación
@@ -71,12 +71,12 @@ class UserStoryResource(MethodView):
 
 @blp.route('/<int:id>')
 class UserStoryItemResource(MethodView):
-    @jwt_required(fresh=True)
+    @jwt_required(refresh=True)
     @blp.response(200, UserStorySchema)
     @blp.alt_response(404, description='User Story not found')
     def get(self, id):
         return UserStoryModel.query.get_or_404(id)
-    @jwt_required(fresh=True)
+    @jwt_required(refresh=True)
     @blp.arguments(UserStorySchema)
     @blp.response(200, UserStorySchema)
     @blp.alt_response(404, description='User Story not found')
@@ -95,7 +95,7 @@ class UserStoryItemResource(MethodView):
         train(user_story)
 
         return user_story
-    @jwt_required(fresh=True)
+    @jwt_required(refresh=True)
     @blp.response(204, description='User Story was removed')
     @blp.alt_response(404, description='User Story not found')
     def delete(self, id):
@@ -110,7 +110,7 @@ class UserStoryItemResource(MethodView):
     
 @blp.route('/create')
 class UserStoryCreate(MethodView):
-    @jwt_required(fresh=True)
+    @jwt_required(refresh=True)
     @blp.arguments(UserStorySchema)
     @blp.response(201, UserStorySchema)
     def post(self, user_data):
