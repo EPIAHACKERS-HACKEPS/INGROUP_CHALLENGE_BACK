@@ -6,7 +6,7 @@ from flask_smorest import Blueprint, abort
 from helpers import assistant
 from flask.views import MethodView
 
-from globals import ASSISTANT_CLASSIFICATION_PROMPT
+from globals import ASSISTANT_CLASSIFICATION_PROMPT, PREFIX_PROMPT
 from schema import AssistantSchema
 
 blp = Blueprint('assitant', __name__, description='Start chat with assistant')
@@ -23,16 +23,20 @@ class Classification(MethodView):
         
         files = request.files.getlist("files")
         
-        prompt = (request.form.get("prompt") or "").strip()
+        prompt = PREFIX_PROMPT + "\n" + (request.form.get("prompt") or "").strip()
         
         response = assistant.chat_assistant(assistant_id, prompt, files = files)
                 
-        init = response.find("{")
-        end = response.rfind("}") + 1
-        
-        response_json = response[init:end]
-                
         try:
+            
+            response_json = "{}"
+            
+            init = response.find("{")
+            end = response.rfind("}") + 1
+            
+            if init >=0 and end > 0:        
+                response_json = response[init:end]
+            
             response_json = json.loads(response_json)
             response_json['response'] = response
             return response_json
