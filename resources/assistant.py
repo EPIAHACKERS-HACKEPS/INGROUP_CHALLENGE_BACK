@@ -8,7 +8,7 @@ from globals import ASSISTANT_BOT_PROMPT, ASSISTANT_CLASSIFICATION_PROMPT, DEBUG
 from helpers.userStory import procesClassification
 from models.item import ItemModel
 from models.item_type import ItemTypeModel
-from schema import AssistantSchema, ChatAssistantData, ThreadIdSchema
+from schema import ChatAssistantData, ThreadIdSchema
 
 from helpers import assistant
 
@@ -53,7 +53,7 @@ class ChatAssistant(MethodView):
 @blp.route('/end')
 class EndAssistant(MethodView):
     
-    @blp.response(200, AssistantSchema)
+    @blp.response(204, description="Assistant ended")
     @blp.alt_response(404, description='The thread was not found')
     def get(self):
         
@@ -85,14 +85,14 @@ class EndAssistant(MethodView):
 
         # file_id = assistant.openai.create_file(file=storage_file.read(file_name, mode="rb"), purpose='assistants').id
         
-        response, file_names = assistant.chat_assistant(assistant_id, message = PREFIX_PROMPT + "\nIt's a chat between an user and the app bot:\n" + storage_tmp.read(file_name, mode="r").read(), file_ids = []) #TODO: delete storage_tmp.read
+        response, file_names = assistant.chat_assistant(assistant_id, message = PREFIX_PROMPT + "\nIt's a chat between an user and the app bot:\n" + storage_tmp.read(file_name, mode="r").read(), file_ids = [file_id]) #TODO: delete storage_tmp.read
                 
         file_names.append(file_name)
                 
         result = procesClassification(response, file_names)
         
         if "user_story" in result:
-            return result
+            return {}
         
         print(f"[ERROR] user_story not found")
         
