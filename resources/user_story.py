@@ -7,7 +7,7 @@ from passlib.hash import pbkdf2_sha256
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt, get_jwt_identity, decode_token
 from helpers.userStory import train
 from flask import request, jsonify
-from models import UserStoryModel
+from models import UserStoryModel, RelatedModel
 
 
 from models import UserStoryModel

@@ -31,7 +31,7 @@ class Classification(MethodView):
         
         print(f"[DEBUG] PROMPT: {prompt}")
         
-        response, file_names = assistant.chat_assistant(assistant_id, prompt, files = files)
+        response, file_names = assistant.chat_assistant(assistant_id, prompt, files = files, delete_thread = True)
                 
         return procesClassification(response, file_names)
                 

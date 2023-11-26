@@ -57,7 +57,10 @@ class PrivateStorage(FileStorage):
         
     def read(self, name, mode = 'r'):
         if self.exists(name):
-            return open(os.path.join(self.path, name), mode)
+            try:
+                return open(os.path.join(self.path, name), mode)
+            except:
+                return None
         else:
             return None
     
