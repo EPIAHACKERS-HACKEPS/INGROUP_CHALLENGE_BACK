@@ -27,7 +27,7 @@ PRIVATE_STORAGE_PATH = os.getenv("PRIVATE_STORAGE_PATH", os.path.join(os.getcwd(
 
 KNOWLEDGE_FILE = os.getenv("KNOWLEDGE_FILE", "knowledge.pdf")
 
-PREFIX_PROMPT = "Extract user stories"
+PREFIX_PROMPT = "Extract user stories:"
 
 SEPARATOR_FILE_NAMES = '$'
 

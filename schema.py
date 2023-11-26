@@ -33,6 +33,7 @@ class ItemUserStorySchema(Schema):
     title = fields.Str(required=False)
     description = fields.Str(required=False)
     priority = fields.Int(required=False)
+    type = fields.Str(required=False)
     item_type = fields.Nested(ItemTypeUserStorySchema(), attribute="item_type", required=False)
     
 class UserStorySchema(Schema):

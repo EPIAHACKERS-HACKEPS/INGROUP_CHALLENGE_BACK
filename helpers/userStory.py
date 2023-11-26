@@ -58,6 +58,12 @@ def procesClassification(response, file_names):
         
         response_json = json.loads(response_json)
         
+        if 'user_story' not in response_json:
+            return {
+                "user_story": {},
+                "response": response,
+            }
+        
         user_story = response_json['user_story']
         user_story = createUserStory(user_story['title'], user_story['description'], SEPARATOR_FILE_NAMES.join(file_names))
                     

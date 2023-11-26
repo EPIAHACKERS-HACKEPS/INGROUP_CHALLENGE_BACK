@@ -8,7 +8,7 @@ from globals import ASSISTANT_BOT_PROMPT, ASSISTANT_CLASSIFICATION_PROMPT, DEBUG
 from helpers.userStory import procesClassification
 from models.item import ItemModel
 from models.item_type import ItemTypeModel
-from schema import ChatAssistantData, ThreadIdSchema
+from schema import AssistantSchema, ChatAssistantData, ThreadIdSchema
 
 from helpers import assistant
 
@@ -53,7 +53,7 @@ class ChatAssistant(MethodView):
 @blp.route('/end')
 class EndAssistant(MethodView):
     
-    @blp.response(204, description="Assistant ended")
+    @blp.response(200, AssistantSchema)
     @blp.alt_response(404, description='The thread was not found')
     def get(self):
         
@@ -92,7 +92,7 @@ class EndAssistant(MethodView):
         result = procesClassification(response, file_names)
         
         if "user_story" in result:
-            return {}
+            return result
         
         print(f"[ERROR] user_story not found")
         
