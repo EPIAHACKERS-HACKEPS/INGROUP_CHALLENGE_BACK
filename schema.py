@@ -22,16 +22,21 @@ class ItemTypeSchema(Schema):
     type = fields.Str(required=True)
     
     
+    
+class ItemTypeUserStorySchema(Schema):
+    id = fields.Int(dump_only=True)
+    type = fields.Str(dump_only=True)
+
 class ItemUserStorySchema(Schema):
-    type = fields.Str(required=False)
-    title = fields.Str(required=False)
     description = fields.Str(required=False)
     priority = fields.Int(required=False)
+    item_type = fields.Nested(ItemTypeUserStorySchema(), attribute="item_type", required=False)
+    
 class UserStorySchema(Schema):
     id = fields.Int(dump_only=True)
     title = fields.Str(required=False)
     description = fields.Str(required=False)
-    items = fields.List(fields.Nested(ItemUserStorySchema()), required=False, dump_only=True)
+    items = fields.List(fields.Nested(ItemUserStorySchema()), required=False, dump_only=True)    
     
 class AssistantSchema(Schema):
     user_story = fields.Nested(UserStorySchema(), required=False)
